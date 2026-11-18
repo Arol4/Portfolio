@@ -1,12 +1,15 @@
+import { useLanguage } from '../context/LanguageContext'
+
 export function Skills({ skills }) {
   const { featuredAi, categories } = skills
+  const { t } = useLanguage()
 
   return (
     <section id="competences">
       <div className="container">
         <div className="section-header reveal">
-          <div className="section-label">Savoir-faire</div>
-          <h2 className="section-title">Compétences</h2>
+          <div className="section-label">{t('skills.sectionLabel')}</div>
+          <h2 className="section-title">{t('skills.sectionTitle')}</h2>
         </div>
 
         <div className="skills-layout">

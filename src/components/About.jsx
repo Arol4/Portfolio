@@ -1,12 +1,15 @@
+import { useLanguage } from '../context/LanguageContext'
+
 export function About({ about }) {
   const { paragraphs, details } = about
+  const { t } = useLanguage()
 
   return (
     <section id="apropos">
       <div className="container">
         <div className="section-header reveal">
-          <div className="section-label">Qui suis-je</div>
-          <h2 className="section-title">À propos</h2>
+          <div className="section-label">{t('about.sectionLabel')}</div>
+          <h2 className="section-title">{t('about.sectionTitle')}</h2>
         </div>
 
         <div className="about-grid">

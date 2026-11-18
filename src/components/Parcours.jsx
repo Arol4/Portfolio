@@ -1,32 +1,39 @@
 import { useState } from 'react'
+import { useLanguage } from '../context/LanguageContext'
 
 export function Parcours({ parcours }) {
   const { timeline, certifications } = parcours
-  const [selectedCategory, setSelectedCategory] = useState('Tous')
+  const [selectedCategoryKey, setSelectedCategoryKey] = useState('all')
+  const { language, t } = useLanguage()
 
-  const categories = [
-    'Tous',
-    'Google',
-    'freeCodeCamp',
-    'Cisco',
-    'Kaggle',
-    'Cloud',
-    'Mobile',
-    'Outils'
+  const categoryOptions = [
+    { key: 'all', label: t('parcours.categoryAll') },
+    { key: 'Google', label: 'Google' },
+    { key: 'freeCodeCamp', label: 'freeCodeCamp' },
+    { key: 'Cisco', label: 'Cisco' },
+    { key: 'Kaggle', label: 'Kaggle' },
+    { key: 'Cloud', label: 'Cloud' },
+    { key: 'Mobile', label: 'Mobile' },
+    { key: 'tools', label: t('parcours.categoryTools') }
   ]
 
   const filteredCerts =
-    selectedCategory === 'Tous'
+    selectedCategoryKey === 'all'
       ? certifications
-      : certifications.filter((c) => c.category === selectedCategory)
+      : certifications.filter((c) => {
+          if (selectedCategoryKey === 'tools') {
+            return c.category === 'Outils' || c.category === 'Tools'
+          }
+          return c.category === selectedCategoryKey
+        })
 
   return (
     <section id="parcours">
       <div className="container">
         {/* Parcours / Timeline */}
         <div className="section-header reveal">
-          <div className="section-label">Mon chemin</div>
-          <h2 className="section-title">Parcours</h2>
+          <div className="section-label">{t('parcours.timelineLabel')}</div>
+          <h2 className="section-title">{t('parcours.timelineTitle')}</h2>
         </div>
 
         <div className="timeline">
@@ -49,27 +56,27 @@ export function Parcours({ parcours }) {
         {/* Certifications */}
         <div className="certs-header-row reveal">
           <div className="section-header" style={{ marginBottom: 0 }}>
-            <div className="section-label">Validation</div>
-            <h2 className="section-title">Certifications</h2>
+            <div className="section-label">{t('parcours.certsLabel')}</div>
+            <h2 className="section-title">{t('parcours.certsTitle')}</h2>
             <div className="certs-latest-callout">
               <span className="pulse" />
               <span>
-                Dernière certification à ce jour :{' '}
-                <strong>Google Analytics</strong> (Nov. 2026)
+                {t('parcours.latestCalloutPrefix')}{' '}
+                <strong>Google Analytics</strong> ({language === 'en' ? 'Nov. 2026' : 'Nov. 2026'})
               </span>
             </div>
           </div>
 
           {/* Filtres interactifs */}
           <div className="certs-filter-tabs">
-            {categories.map((cat) => (
+            {categoryOptions.map((opt) => (
               <button
-                key={cat}
+                key={opt.key}
                 type="button"
-                className={`cert-filter-btn ${selectedCategory === cat ? 'active' : ''}`}
-                onClick={() => setSelectedCategory(cat)}
+                className={`cert-filter-btn ${selectedCategoryKey === opt.key ? 'active' : ''}`}
+                onClick={() => setSelectedCategoryKey(opt.key)}
               >
-                {cat}
+                {opt.label}
               </button>
             ))}
           </div>
@@ -85,7 +92,7 @@ export function Parcours({ parcours }) {
                 {cert.isLatest && (
                   <div className="cert-latest-tag">
                     <span className="pulse" />
-                    <span>Dernière certification</span>
+                    <span>{t('parcours.latestTag')}</span>
                   </div>
                 )}
                 <div className="cert-header">
@@ -112,9 +119,9 @@ export function Parcours({ parcours }) {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="cert-link"
-                      title={`Voir le certificat : ${cert.name}`}
+                      title={`${t('parcours.viewCertTitle')} ${cert.name}`}
                     >
-                      <span>{cert.verifyUrl ? 'Certificat' : 'Voir'}</span>
+                      <span>{cert.verifyUrl ? t('parcours.certBtn') : t('parcours.viewBtn')}</span>
                       <svg
                         width="12"
                         height="12"
@@ -138,9 +145,9 @@ export function Parcours({ parcours }) {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="cert-link cert-link-verify"
-                      title="Vérifier l'authenticité officielle sur Skillshop"
+                      title={t('parcours.verifyCertTitle')}
                     >
-                      <span>Vérifier</span>
+                      <span>{t('parcours.verifyBtn')}</span>
                       <svg
                         width="12"
                         height="12"

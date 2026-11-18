@@ -1,4 +1,4 @@
-import { portfolioData } from './data/portfolioData'
+import { useLanguage } from './context/LanguageContext'
 import { CustomCursor } from './components/CustomCursor'
 import { NeuralCanvas } from './components/NeuralCanvas'
 import { Navbar } from './components/Navbar'
@@ -14,6 +14,7 @@ import { useScrollReveal } from './hooks/useScrollReveal'
 
 export default function App() {
   useScrollReveal()
+  const { data } = useLanguage()
 
   return (
     <>
@@ -24,35 +25,35 @@ export default function App() {
       <NeuralCanvas />
 
       {/* Barre de navigation */}
-      <Navbar shortName={portfolioData.personalInfo.shortName} />
+      <Navbar shortName={data.personalInfo.shortName} />
 
       <main>
         {/* Section Hero */}
-        <Hero personalInfo={portfolioData.personalInfo} />
+        <Hero personalInfo={data.personalInfo} />
 
         {/* Bannière défilante signature */}
-        <Marquee keywords={portfolioData.marqueeKeywords} />
+        <Marquee keywords={data.marqueeKeywords} />
 
         {/* Projets */}
-        <Projects projects={portfolioData.projects} />
+        <Projects projects={data.projects} />
 
         {/* À propos */}
-        <About about={portfolioData.about} />
+        <About about={data.about} />
 
         {/* Compétences */}
-        <Skills skills={portfolioData.skills} />
+        <Skills skills={data.skills} />
 
         {/* Parcours & Certifications */}
-        <Parcours parcours={portfolioData.parcours} />
+        <Parcours parcours={data.parcours} />
 
         {/* Contact */}
-        <Contact contact={portfolioData.contact} />
+        <Contact contact={data.contact} />
       </main>
 
       {/* Pied de page */}
       <Footer
-        personalInfo={portfolioData.personalInfo}
-        contact={portfolioData.contact}
+        personalInfo={data.personalInfo}
+        contact={data.contact}
       />
     </>
   )

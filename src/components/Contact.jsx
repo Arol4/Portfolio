@@ -1,6 +1,9 @@
+import { useLanguage } from '../context/LanguageContext'
+
 export function Contact({ contact }) {
   const { cta, subtitle, email, linkedin, linkedinUser, github, githubUser, phone } =
     contact
+  const { t } = useLanguage()
 
   return (
     <section id="contact">
@@ -8,11 +11,22 @@ export function Contact({ contact }) {
         <div className="contact-grid">
           <div>
             <div className="section-header reveal">
-              <div className="section-label">Parlons-en</div>
+              <div className="section-label">{t('contact.sectionLabel')}</div>
               <h2 className="contact-cta">
-                Un projet, un stage, une idée ?
-                <br />
-                Écrivez-moi.
+                {cta ? (
+                  cta.split('\n').map((line, i, arr) => (
+                    <span key={i}>
+                      {line}
+                      {i < arr.length - 1 && <br />}
+                    </span>
+                  ))
+                ) : (
+                  <>
+                    Un projet, un stage, une idée ?
+                    <br />
+                    Écrivez-moi.
+                  </>
+                )}
               </h2>
               <p className="contact-subtitle">{subtitle}</p>
             </div>
@@ -20,7 +34,7 @@ export function Contact({ contact }) {
               href={`mailto:${email}`}
               className="btn btn-primary reveal reveal-delay-1"
             >
-              Envoyer un email
+              {t('contact.emailBtn')}
               <svg
                 width="16"
                 height="16"
@@ -53,7 +67,7 @@ export function Contact({ contact }) {
                 </svg>
               </span>
               <span className="contact-link-text">
-                <span className="contact-link-label">Email</span>
+                <span className="contact-link-label">{t('contact.emailLabel')}</span>
                 <span className="contact-link-value">{email}</span>
               </span>
             </a>
@@ -76,7 +90,7 @@ export function Contact({ contact }) {
                 </svg>
               </span>
               <span className="contact-link-text">
-                <span className="contact-link-label">LinkedIn</span>
+                <span className="contact-link-label">{t('contact.linkedinLabel')}</span>
                 <span className="contact-link-value">{linkedinUser}</span>
               </span>
             </a>
@@ -99,7 +113,7 @@ export function Contact({ contact }) {
                 </svg>
               </span>
               <span className="contact-link-text">
-                <span className="contact-link-label">GitHub</span>
+                <span className="contact-link-label">{t('contact.githubLabel')}</span>
                 <span className="contact-link-value">{githubUser}</span>
               </span>
             </a>
@@ -117,7 +131,7 @@ export function Contact({ contact }) {
                 </svg>
               </span>
               <span className="contact-link-text">
-                <span className="contact-link-label">Téléphone</span>
+                <span className="contact-link-label">{t('contact.phoneLabel')}</span>
                 <span className="contact-link-value">{phone}</span>
               </span>
             </a>

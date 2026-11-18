@@ -1,16 +1,19 @@
 import { useState, useEffect } from 'react'
 import { ThemeToggle } from './ThemeToggle'
+import { LanguageToggle } from './LanguageToggle'
+import { useLanguage } from '../context/LanguageContext'
 
 export function Navbar({ shortName = 'B.A' }) {
   const [activeSection, setActiveSection] = useState('')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { t } = useLanguage()
 
   const navLinks = [
-    { href: '#projets', label: 'Projets' },
-    { href: '#apropos', label: 'À propos' },
-    { href: '#competences', label: 'Compétences' },
-    { href: '#parcours', label: 'Parcours' },
-    { href: '#contact', label: 'Contact' }
+    { href: '#projets', label: t('nav.projets') },
+    { href: '#apropos', label: t('nav.apropos') },
+    { href: '#competences', label: t('nav.competences') },
+    { href: '#parcours', label: t('nav.parcours') },
+    { href: '#contact', label: t('nav.contact') }
   ]
 
   useEffect(() => {
@@ -54,7 +57,7 @@ export function Navbar({ shortName = 'B.A' }) {
     <>
       <div className="nav-wrapper">
         <nav className="container">
-          <a href="#" className="nav-logo" aria-label="Accueil" onClick={closeMenu}>
+          <a href="#" className="nav-logo" aria-label={t('nav.homeAria')} onClick={closeMenu}>
             {shortName.split('.')[0]}
             <span>.</span>
             {shortName.split('.')[1] || 'A'}
@@ -74,18 +77,22 @@ export function Navbar({ shortName = 'B.A' }) {
                 </a>
               )
             })}
+            <LanguageToggle />
             <ThemeToggle />
           </div>
 
-          <button
-            className="nav-toggle"
-            aria-label={mobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
-            aria-expanded={mobileMenuOpen}
-            type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            <span>{mobileMenuOpen ? '✕' : '☰'}</span>
-          </button>
+          <div className="nav-mobile-actions">
+            <LanguageToggle />
+            <button
+              className="nav-toggle"
+              aria-label={mobileMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
+              aria-expanded={mobileMenuOpen}
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <span>{mobileMenuOpen ? '✕' : '☰'}</span>
+            </button>
+          </div>
         </nav>
       </div>
 
@@ -94,14 +101,17 @@ export function Navbar({ shortName = 'B.A' }) {
         className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}
         id="mobileMenu"
         role="dialog"
-        aria-label="Menu de navigation mobile"
+        aria-label={t('nav.mobileNav')}
       >
         {navLinks.map((link) => (
           <a key={link.href} href={link.href} onClick={closeMenu}>
             {link.label}
           </a>
         ))}
-        <ThemeToggle style={{ marginTop: 'var(--space-md)' }} />
+        <div className="mobile-menu-controls">
+          <LanguageToggle />
+          <ThemeToggle />
+        </div>
       </div>
     </>
   )

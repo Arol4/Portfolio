@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react'
+import { useLanguage } from '../context/LanguageContext'
 
 export function Hero({ personalInfo }) {
   const { statusBadge, headline, heroDescription, stats, avatarUrl, name, title } =
     personalInfo
+
+  const { language, t } = useLanguage()
 
   const [counts, setCounts] = useState(() =>
     stats.reduce((acc, curr) => ({ ...acc, [curr.id]: 0 }), {})
@@ -73,7 +76,7 @@ export function Hero({ personalInfo }) {
 
             <div className="hero-actions">
               <a href="#contact" className="btn btn-primary">
-                Me contacter
+                {t('hero.contactBtn')}
                 <svg
                   width="16"
                   height="16"
@@ -91,7 +94,7 @@ export function Hero({ personalInfo }) {
                 </svg>
               </a>
               <a href="#projets" className="btn btn-ghost">
-                Voir les projets
+                {t('hero.projectsBtn')}
               </a>
             </div>
 
@@ -101,7 +104,7 @@ export function Hero({ personalInfo }) {
                   <span className="hero-proof-number">
                     {counts[item.id] !== undefined
                       ? counts[item.id] >= 900
-                        ? counts[item.id].toLocaleString('fr-FR')
+                        ? counts[item.id].toLocaleString(language === 'en' ? 'en-US' : 'fr-FR')
                         : counts[item.id]
                       : item.number}
                   </span>
@@ -123,7 +126,7 @@ export function Hero({ personalInfo }) {
                 />
                 <div className="hero-image-badge">
                   <span className="pulse" />
-                  <span>{title || 'Ingénieur IA'}</span>
+                  <span>{title || (language === 'en' ? 'AI Engineer' : 'Ingénieur IA')}</span>
                 </div>
               </div>
             </div>

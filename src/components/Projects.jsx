@@ -1,12 +1,15 @@
+import { useLanguage } from '../context/LanguageContext'
+
 export function Projects({ projects }) {
   const { featured, secondary } = projects
+  const { t } = useLanguage()
 
   return (
     <section id="projets">
       <div className="container">
         <div className="section-header reveal">
-          <div className="section-label">Portfolio</div>
-          <h2 className="section-title">Projets sélectionnés</h2>
+          <div className="section-label">{t('projects.sectionLabel')}</div>
+          <h2 className="section-title">{t('projects.sectionTitle')}</h2>
         </div>
 
         <div className="projects-grid">
@@ -21,17 +24,17 @@ export function Projects({ projects }) {
                 <h3 className="project-title">{featured.title}</h3>
                 <span className="project-role">{featured.role}</span>
                 <p className="project-desc">
-                  <strong>Problème : </strong>
+                  <strong>{t('projects.problemLabel')} </strong>
                   {featured.problem}
                 </p>
                 <p className="project-desc">
-                  <strong>Solution : </strong>
+                  <strong>{t('projects.solutionLabel')} </strong>
                   {featured.solution}
                 </p>
                 <div className="project-tech">
-                  {featured.tech.map((t) => (
-                    <span key={t} className="tech-tag">
-                      {t}
+                  {featured.tech.map((techItem) => (
+                    <span key={techItem} className="tech-tag">
+                      {techItem}
                     </span>
                   ))}
                 </div>
@@ -56,11 +59,11 @@ export function Projects({ projects }) {
                 {proj.problem && proj.solution ? (
                   <>
                     <p className="project-desc">
-                      <strong>Problème : </strong>
+                      <strong>{t('projects.problemLabel')} </strong>
                       {proj.problem}
                     </p>
                     <p className="project-desc">
-                      <strong>Solution : </strong>
+                      <strong>{t('projects.solutionLabel')} </strong>
                       {proj.solution}
                     </p>
                   </>
@@ -69,9 +72,9 @@ export function Projects({ projects }) {
                 )}
 
                 <div className="project-tech">
-                  {proj.tech.map((t) => (
-                    <span key={t} className="tech-tag">
-                      {t}
+                  {proj.tech.map((techItem) => (
+                    <span key={techItem} className="tech-tag">
+                      {techItem}
                     </span>
                   ))}
                 </div>
@@ -85,7 +88,7 @@ export function Projects({ projects }) {
                     rel="noopener noreferrer"
                     className="project-link"
                   >
-                    {proj.linkText || 'Consulter'}
+                    {proj.linkText || t('projects.defaultLinkText')}
                     <svg
                       width="14"
                       height="14"
