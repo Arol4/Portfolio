@@ -14,7 +14,7 @@ export const portfolioData = {
     heroDescription:
       "Ingénieur IA basé à Douala — je conçois des systèmes RAG, des modèles de machine learning et des applications logicielles centrées utilisateur, du prototype au déploiement.",
     stats: [
-      { id: "certs", number: 9, label: "Certifications obtenues" },
+      { id: "certs", number: 10, label: "Certifications obtenues" },
       { id: "hours", number: 900, label: "Heures de formation certifiée" },
       { id: "projects", number: 3, label: "Projets livrés" }
     ]
@@ -96,7 +96,7 @@ export const portfolioData = {
     paragraphs: [
       "Jeune ingénieur en intelligence artificielle basé à Douala, je construis des solutions utiles et centrées utilisateur. Ma pensée algorithmique rigoureuse s'allie à une créativité technique pour concevoir des modèles et architectures logicielles complètes — du machine learning classique aux systèmes RAG et conteneurisés.",
       "Mes expériences de stage m'ont permis de concevoir en conditions réelles un système de Recherche Documentaire Augmentée (RAG) sécurisé pour CAMRAIL chez BIGDATA CENTER & AI (React, workflows n8n, recherche hybride Qdrant + BM25, Docker Compose, Keycloak), ainsi qu'une application de gestion de fichiers déployée en production chez Kaidou LAB.",
-      "Certifié en Python, Machine Learning, C# et bases de données par freeCodeCamp, Microsoft et Cisco, j'ai cumulé plus de 900 heures de formation certifiée afin de délivrer des solutions d'intelligence artificielle performantes et sécurisées."
+      "Certifié par Google (Google Analytics), freeCodeCamp (Python, Machine Learning), Microsoft et Cisco, j'ai cumulé plus de 900 heures de formation certifiée afin de délivrer des solutions d'intelligence artificielle performantes et sécurisées."
     ],
     details: [
       { label: "Localisation", value: "Douala, Cameroun" },
@@ -154,6 +154,7 @@ export const portfolioData = {
         icon: "⛁",
         items: [
           "Qdrant (Base vectorielle)",
+          "Google Analytics 4",
           "PostgreSQL",
           "MySQL",
           "SQLite",
@@ -220,6 +221,16 @@ export const portfolioData = {
     ],
 
     certifications: [
+      {
+        issuer: "Google",
+        name: "Google Analytics Certification (2026)",
+        date: "Nov 2026",
+        category: "Google",
+        isLatest: true,
+        fileUrl: "/certifications/Google Analytics/Certificat Google Analytics.pdf",
+        badgeUrl: "/certifications/Google Analytics/Badge Google Analytics.png",
+        verifyUrl: "https://skillshop.credential.net/f478069a-c04e-4777-bd15-291f419452fa"
+      },
       {
         issuer: "freeCodeCamp",
         name: "Machine Learning with Python",
@@ -343,7 +354,7 @@ export const portfolioData = {
         issuer: "Google Cloud / Simplilearn",
         name: "Gmail - Declaration of Completion",
         date: "Juillet 2026",
-        category: "Outils",
+        category: "Google",
         fileUrl: "/certifications/Certificat de completion Gmail.pdf"
       },
       {

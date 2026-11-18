@@ -6,6 +6,7 @@ export function Parcours({ parcours }) {
 
   const categories = [
     'Tous',
+    'Google',
     'freeCodeCamp',
     'Cisco',
     'Kaggle',
@@ -50,6 +51,13 @@ export function Parcours({ parcours }) {
           <div className="section-header" style={{ marginBottom: 0 }}>
             <div className="section-label">Validation</div>
             <h2 className="section-title">Certifications</h2>
+            <div className="certs-latest-callout">
+              <span className="pulse" />
+              <span>
+                Dernière certification à ce jour :{' '}
+                <strong>Google Analytics</strong> (Nov. 2026)
+              </span>
+            </div>
           </div>
 
           {/* Filtres interactifs */}
@@ -69,39 +77,88 @@ export function Parcours({ parcours }) {
 
         <div className="certs-scroll reveal">
           {filteredCerts.map((cert, idx) => (
-            <div key={`${cert.name}-${idx}`} className="cert-item">
+            <div
+              key={`${cert.name}-${idx}`}
+              className={`cert-item ${cert.isLatest ? 'is-latest' : ''}`}
+            >
               <div>
-                <div className="cert-issuer">{cert.issuer}</div>
-                <div className="cert-name">{cert.name}</div>
+                {cert.isLatest && (
+                  <div className="cert-latest-tag">
+                    <span className="pulse" />
+                    <span>Dernière certification</span>
+                  </div>
+                )}
+                <div className="cert-header">
+                  <div className="cert-header-content">
+                    <div className="cert-issuer">{cert.issuer}</div>
+                    <div className="cert-name">{cert.name}</div>
+                  </div>
+                  {cert.badgeUrl && (
+                    <img
+                      src={cert.badgeUrl}
+                      alt={`Badge ${cert.name}`}
+                      className="cert-badge-thumbnail"
+                      loading="lazy"
+                    />
+                  )}
+                </div>
               </div>
               <div className="cert-action">
                 <span className="cert-date">{cert.date}</span>
-                {cert.fileUrl && (
-                  <a
-                    href={cert.fileUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="cert-link"
-                    title={`Voir le certificat : ${cert.name}`}
-                  >
-                    <span>Voir</span>
-                    <svg
-                      width="12"
-                      height="12"
-                      viewBox="0 0 12 12"
-                      fill="none"
-                      aria-hidden="true"
+                <div className="cert-links-group">
+                  {cert.fileUrl && (
+                    <a
+                      href={cert.fileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="cert-link"
+                      title={`Voir le certificat : ${cert.name}`}
                     >
-                      <path
-                        d="M3 9L9 3M9 3H4.5M9 3v4.5"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </a>
-                )}
+                      <span>{cert.verifyUrl ? 'Certificat' : 'Voir'}</span>
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M3 9L9 3M9 3H4.5M9 3v4.5"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </a>
+                  )}
+                  {cert.verifyUrl && (
+                    <a
+                      href={cert.verifyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="cert-link cert-link-verify"
+                      title="Vérifier l'authenticité officielle sur Skillshop"
+                    >
+                      <span>Vérifier</span>
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M9.5 7v2.5a1 1 0 01-1 1h-6a1 1 0 01-1-1v-6a1 1 0 011-1H5M8 1.5h3.5m0 0V5m0-3.5L5 8"
+                          stroke="currentColor"
+                          strokeWidth="1.3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           ))}
