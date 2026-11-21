@@ -1,24 +1,10 @@
-import { useEffect, useState } from 'react'
 import { useLanguage } from '../context/LanguageContext'
+import { useTheme } from '../context/ThemeContext'
 
+// L'état du thème vit dans ThemeProvider : toutes les instances du bouton restent synchronisées.
 export function ThemeToggle({ className = '', style = {} }) {
-  const [theme, setTheme] = useState(() => {
-    const saved = localStorage.getItem('theme')
-    if (saved) return saved
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    return prefersDark ? 'dark' : 'dark' // default to dark
-  })
-
+  const { theme, toggleTheme } = useTheme()
   const { t } = useLanguage()
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme)
-    localStorage.setItem('theme', theme)
-  }, [theme])
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
-  }
 
   return (
     <button

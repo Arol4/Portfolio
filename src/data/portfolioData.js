@@ -14,7 +14,14 @@ export const portfolioDataFR = {
     heroDescription:
       "Ingénieur IA basé à Douala — je conçois des systèmes RAG, des modèles de machine learning et des applications logicielles centrées utilisateur, du prototype au déploiement.",
     stats: [
-      { id: "certs", number: 10, label: "Certifications obtenues" },
+      // Chiffre calculé à partir de la liste des certifications (plus rien à tenir à jour à la main)
+      {
+        id: "certs",
+        get number() {
+          return portfolioDataFR.parcours.certifications.length
+        },
+        label: "Certifications obtenues"
+      },
       { id: "hours", number: 900, label: "Heures de formation certifiée" },
       { id: "projects", number: 3, label: "Projets livrés" }
     ]
@@ -224,6 +231,7 @@ export const portfolioDataFR = {
       {
         issuer: "Google",
         name: "Google Analytics Certification (2026)",
+        shortName: "Google Analytics",
         date: "Nov 2026",
         category: "Google",
         isLatest: true,
@@ -395,7 +403,14 @@ export const portfolioDataEN = {
     heroDescription:
       "AI Engineer based in Douala — I design RAG systems, machine learning models, and user-centric software applications, from prototype to production deployment.",
     stats: [
-      { id: "certs", number: 10, label: "Certifications earned" },
+      // Number computed from the certifications list (nothing to keep in sync by hand)
+      {
+        id: "certs",
+        get number() {
+          return portfolioDataEN.parcours.certifications.length
+        },
+        label: "Certifications earned"
+      },
       { id: "hours", number: 900, label: "Hours of certified training" },
       { id: "projects", number: 3, label: "Delivered projects" }
     ]
@@ -605,6 +620,7 @@ export const portfolioDataEN = {
       {
         issuer: "Google",
         name: "Google Analytics Certification (2026)",
+        shortName: "Google Analytics",
         date: "Nov 2026",
         category: "Google",
         isLatest: true,

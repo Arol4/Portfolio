@@ -10,27 +10,16 @@
   --border-subtle: rgba(255, 255, 255, 0.06);
   --border-accent: rgba(0, 229, 255, 0.2);
 
+  /* Contrastes mesurés (WCAG AA = 4,5:1 pour le texte courant) :
+     secondary 7,6:1 et muted 5,8:1 sur les cartes sombres */
   --text-primary: #e8eaed;
-  --text-secondary: #8892a4;
-  --text-muted: #5a6478;
+  --text-secondary: #a0a8b8;
+  --text-muted: #8892a4;
+  --text-faint: #5a6478; /* décoratif uniquement (défilement de mots-clés) : volontairement sous le seuil AA */
 
   --accent: #00e5ff;
   --accent-dim: rgba(0, 229, 255, 0.15);
   --accent-glow: rgba(0, 229, 255, 0.4);
-
-  /* Couleurs — thème clair */
-  --light-bg-primary: #f5f5f8;
-  --light-bg-secondary: #ffffff;
-  --light-bg-card: #ffffff;
-  --light-bg-card-hover: #f0f0f5;
-  --light-border-subtle: rgba(0, 0, 0, 0.08);
-  --light-border-accent: rgba(0, 140, 160, 0.25);
-  --light-text-primary: #1a1a2e;
-  --light-text-secondary: #5a6478;
-  --light-text-muted: #8892a4;
-  --light-accent: #008ca0;
-  --light-accent-dim: rgba(0, 140, 160, 0.1);
-  --light-accent-glow: rgba(0, 140, 160, 0.3);
 
   /* Typographie */
   --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -69,22 +58,27 @@
 
   /* Largeur maximale */
   --max-width: 1200px;
+
+  /* Barres de défilement et contrôles natifs assortis au thème */
+  color-scheme: dark;
 }
 
-/* Thème clair */
+/* Thème clair — accent #007587 : 4,96:1 sur le fond, 4,69:1 au minimum sur les tags teintés (AA) */
 [data-theme="light"] {
+  color-scheme: light;
   --bg-primary: #f5f5f8;
   --bg-secondary: #ffffff;
   --bg-card: #ffffff;
   --bg-card-hover: #f0f0f5;
   --border-subtle: rgba(0, 0, 0, 0.08);
-  --border-accent: rgba(0, 140, 160, 0.25);
+  --border-accent: rgba(0, 117, 135, 0.25);
   --text-primary: #1a1a2e;
-  --text-secondary: #5a6478;
-  --text-muted: #8892a4;
-  --accent: #008ca0;
-  --accent-dim: rgba(0, 140, 160, 0.1);
-  --accent-glow: rgba(0, 140, 160, 0.3);
+  --text-secondary: #475569;
+  --text-muted: #5f6a7d;
+  --text-faint: #8892a4;
+  --accent: #007587;
+  --accent-dim: rgba(0, 117, 135, 0.1);
+  --accent-glow: rgba(0, 117, 135, 0.3);
 }
 
 /* ============================================================
@@ -111,13 +105,6 @@ body {
   background: var(--bg-primary);
   background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 229, 255, 0.05), transparent);
   overflow-x: hidden;
-  cursor: none;
-}
-
-@media (hover: none), (pointer: coarse) {
-  body {
-    cursor: auto;
-  }
 }
 
 ::selection {
@@ -153,6 +140,7 @@ ul, ol {
    CURSEUR PERSONNALISÉ
    ============================================================ */
 .cursor-dot {
+  display: none; /* affiché seulement quand le faux curseur est actif (.has-custom-cursor) */
   position: fixed;
   top: 0;
   left: 0;
@@ -168,6 +156,7 @@ ul, ol {
 }
 
 .cursor-ring {
+  display: none; /* idem */
   position: fixed;
   top: 0;
   left: 0;
@@ -194,11 +183,17 @@ ul, ol {
   border-color: var(--accent-glow);
 }
 
-@media (hover: none), (pointer: coarse) {
-  .cursor-dot,
-  .cursor-ring {
-    display: none !important;
-  }
+/* Le curseur natif n'est masqué (et le faux curseur affiché) que si CustomCursor.jsx l'a activé :
+   souris ou trackpad détecté. Sur tactile, ou si le JS échoue, le curseur normal reste visible.
+   Le préfixe « html » relève la spécificité : il l'emporte sur les `cursor: pointer` des boutons. */
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none;
+}
+
+html.has-custom-cursor .cursor-dot,
+html.has-custom-cursor .cursor-ring {
+  display: block;
 }
 
 /* ============================================================
@@ -212,10 +207,6 @@ ul, ol {
   height: 100%;
   z-index: 0;
   pointer-events: none;
-}
-
-[data-theme="light"] #neural-canvas {
-  opacity: 0.4;
 }
 
 /* ============================================================
@@ -322,15 +313,9 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: none;
+  cursor: pointer;
   font-size: var(--text-lg);
   transition: all var(--transition-fast);
-}
-
-@media (hover: none), (pointer: coarse) {
-  .theme-toggle {
-    cursor: pointer;
-  }
 }
 
 .theme-toggle:hover {
@@ -350,19 +335,13 @@ nav {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  cursor: none;
+  cursor: pointer;
   font-family: var(--font-heading);
   font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: 0.06em;
   transition: all var(--transition-fast);
   user-select: none;
-}
-
-@media (hover: none), (pointer: coarse) {
-  .lang-toggle {
-    cursor: pointer;
-  }
 }
 
 .lang-toggle:hover {
@@ -697,16 +676,10 @@ nav {
   padding: 14px 28px;
   border-radius: var(--radius-md);
   border: none;
-  cursor: none;
+  cursor: pointer;
   transition: all var(--transition-base);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-}
-
-@media (hover: none), (pointer: coarse) {
-  .btn {
-    cursor: pointer;
-  }
 }
 
 .btn-primary {
@@ -759,7 +732,7 @@ nav {
   font-family: var(--font-heading);
   font-size: clamp(var(--text-2xl), 4vw, var(--text-4xl));
   font-weight: 700;
-  color: var(--text-muted);
+  color: var(--text-faint);
   white-space: nowrap;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -1224,14 +1197,8 @@ nav {
   font-weight: 500;
   padding: 6px 14px;
   border-radius: 100px;
-  cursor: none;
+  cursor: pointer;
   transition: all var(--transition-fast);
-}
-
-@media (hover: none), (pointer: coarse) {
-  .cert-filter-btn {
-    cursor: pointer;
-  }
 }
 
 .cert-filter-btn:hover,
@@ -1316,8 +1283,8 @@ nav {
 }
 
 [data-theme="light"] .cert-item.is-latest {
-  background: linear-gradient(160deg, rgba(0, 140, 160, 0.08) 0%, var(--light-bg-card) 55%);
-  box-shadow: 0 0 25px rgba(0, 140, 160, 0.15);
+  background: linear-gradient(160deg, rgba(0, 117, 135, 0.08) 0%, var(--bg-card) 55%);
+  box-shadow: 0 0 25px rgba(0, 117, 135, 0.15);
 }
 
 .cert-latest-tag {
@@ -1450,8 +1417,8 @@ nav {
 }
 
 [data-theme="light"] .cert-link-verify {
-  background: rgba(0, 140, 160, 0.08);
-  border-color: rgba(0, 140, 160, 0.35);
+  background: rgba(0, 117, 135, 0.08);
+  border-color: rgba(0, 117, 135, 0.35);
 }
 
 /* ============================================================

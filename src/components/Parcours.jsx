@@ -4,7 +4,8 @@ import { useLanguage } from '../context/LanguageContext'
 export function Parcours({ parcours }) {
   const { timeline, certifications } = parcours
   const [selectedCategoryKey, setSelectedCategoryKey] = useState('all')
-  const { language, t } = useLanguage()
+  const latestCert = certifications.find((c) => c.isLatest)
+  const { t } = useLanguage()
 
   const categoryOptions = [
     { key: 'all', label: t('parcours.categoryAll') },
@@ -58,13 +59,15 @@ export function Parcours({ parcours }) {
           <div className="section-header" style={{ marginBottom: 0 }}>
             <div className="section-label">{t('parcours.certsLabel')}</div>
             <h2 className="section-title">{t('parcours.certsTitle')}</h2>
-            <div className="certs-latest-callout">
-              <span className="pulse" />
-              <span>
-                {t('parcours.latestCalloutPrefix')}{' '}
-                <strong>Google Analytics</strong> ({language === 'en' ? 'Nov. 2026' : 'Nov. 2026'})
-              </span>
-            </div>
+            {latestCert && (
+              <div className="certs-latest-callout">
+                <span className="pulse" />
+                <span>
+                  {t('parcours.latestCalloutPrefix')}{' '}
+                  <strong>{latestCert.shortName || latestCert.name}</strong> ({latestCert.date})
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Filtres interactifs */}

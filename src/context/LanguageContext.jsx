@@ -1,18 +1,19 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { portfolioDataFR, portfolioDataEN } from '../data/portfolioData'
 import { translations } from '../data/translations'
+import { safeGetItem, safeSetItem } from '../utils/storage'
 
 const LanguageContext = createContext(null)
 
 export function LanguageProvider({ children }) {
   const [language, setLanguage] = useState(() => {
-    const saved = localStorage.getItem('portfolio_lang')
+    const saved = safeGetItem('portfolio_lang')
     if (saved === 'en' || saved === 'fr') return saved
     return 'fr'
   })
 
   useEffect(() => {
-    localStorage.setItem('portfolio_lang', language)
+    safeSetItem('portfolio_lang', language)
     document.documentElement.setAttribute('lang', language)
 
     const meta = translations[language]?.meta

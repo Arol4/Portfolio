@@ -66,7 +66,7 @@ export const translations = {
     meta: {
       title: "Berios Arol · Ingénieur IA",
       description:
-        "Ingénieur en Intelligence Artificielle basé à Douala. Je conçois des modèles de machine learning et des applications centrées utilisateur."
+        "Ingénieur en Intelligence Artificielle basé à Douala. Je conçois des systèmes RAG, des modèles de machine learning et des applications centrées utilisateur."
     }
   },
   en: {

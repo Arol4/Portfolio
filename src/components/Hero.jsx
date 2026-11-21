@@ -11,6 +11,10 @@ export function Hero({ personalInfo }) {
     stats.reduce((acc, curr) => ({ ...acc, [curr.id]: 0 }), {})
   )
 
+  // Les compteurs ne repartent que si les chiffres eux-mêmes changent : un simple changement
+  // de langue (qui remplace seulement les libellés) ne les relance plus.
+  const numbersKey = stats.map((s) => `${s.id}:${s.number}`).join('|')
+
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)')
     if (prefersReduced.matches) {
@@ -22,14 +26,18 @@ export function Hero({ personalInfo }) {
       return
     }
 
-    const duration = 1500
-    const start = performance.now()
+    const START_DELAY = 1000 // = délai CSS d'apparition du bloc .hero-proof
+    const DURATION = 1500
     let animationFrameId
 
     const timer = setTimeout(() => {
+      // Le chrono démarre ICI, une fois le délai écoulé. Pris avant le setTimeout, il comptait
+      // déjà 800 ms au premier affichage : les chiffres sautaient d'un coup à ~90 %.
+      const start = performance.now()
+
       function tick(now) {
-        const elapsed = now - start
-        const progress = Math.min(elapsed / duration, 1)
+        // Le timestamp de requestAnimationFrame peut précéder légèrement `start` : on borne à 0.
+        const progress = Math.min(Math.max((now - start) / DURATION, 0), 1)
         const ease = 1 - Math.pow(1 - progress, 3)
 
         const updated = {}
@@ -44,13 +52,15 @@ export function Hero({ personalInfo }) {
       }
 
       animationFrameId = requestAnimationFrame(tick)
-    }, 800)
+    }, START_DELAY)
 
     return () => {
       clearTimeout(timer)
       cancelAnimationFrame(animationFrameId)
     }
-  }, [stats])
+    // La clé `numbersKey` remplace volontairement `stats` (voir plus haut).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [numbersKey])
 
   return (
     <section className="hero">

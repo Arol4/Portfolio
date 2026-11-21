@@ -3,17 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0f" />
+
+  <script>
+    (function () {
+      var theme = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      try {
+        var saved = localStorage.getItem('theme');
+        if (saved === 'light' || saved === 'dark') theme = saved;
+      } catch (e) {}
+      document.documentElement.setAttribute('data-theme', theme);
+      if (theme === 'light') {
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', '#f5f5f8');
+      }
+    })();
+  </script>
+
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="canonical" href="https://www.beriosarol.me/" />
   <title>Berios Arol · Ingénieur IA</title>
-  <meta name="description" content="Ingénieur en Intelligence Artificielle basé à Douala. Je conçois des modèles de machine learning et des applications centrées utilisateur." />
+  <meta name="description" content="Ingénieur en Intelligence Artificielle basé à Douala. Je conçois des systèmes RAG, des modèles de machine learning et des applications centrées utilisateur." />
   <meta name="author" content="Berios Arol Djeufack Kafack" />
 
-  <!-- Open Graph -->
+  <!-- Open Graph (aperçus LinkedIn, WhatsApp, Facebook…) -->
   <meta property="og:title" content="Berios Arol · Ingénieur IA" />
-  <meta property="og:description" content="Ingénieur en Intelligence Artificielle basé à Douala. Je conçois des modèles de machine learning et des applications centrées utilisateur." />
+  <meta property="og:description" content="Ingénieur en Intelligence Artificielle basé à Douala. Je conçois des systèmes RAG, des modèles de machine learning et des applications centrées utilisateur." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://beriosarol.me/" />
+  <meta property="og:url" content="https://www.beriosarol.me/" />
+  <meta property="og:site_name" content="Berios Arol" />
   <meta property="og:locale" content="fr_FR" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:image" content="https://www.beriosarol.me/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Berios Arol, portfolio : IA, machine learning et développement logiciel" />
+
+  <!-- Aperçu X (Twitter) -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Berios Arol · Ingénieur IA" />
+  <meta name="twitter:description" content="Ingénieur en Intelligence Artificielle basé à Douala. Je conçois des systèmes RAG, des modèles de machine learning et des applications centrées utilisateur." />
+  <meta name="twitter:image" content="https://www.beriosarol.me/og-image.png" />
+  <meta name="twitter:image:alt" content="Berios Arol, portfolio : IA, machine learning et développement logiciel" />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -22,6 +53,20 @@
 </head>
 <body>
   <div id="root"></div>
+
+  <!-- Contenu minimal si JavaScript est désactivé. À tenir à jour avec la description ci-dessus. -->
+  <noscript>
+    <div style="max-width:640px;margin:0 auto;padding:96px 24px;font-family:system-ui,sans-serif;line-height:1.6;color:#e8eaed">
+      <h1 style="font-size:2rem;margin-bottom:1rem">Berios Arol</h1>
+      <p>Ingénieur en Intelligence Artificielle basé à Douala : systèmes RAG, machine learning et applications centrées utilisateur.</p>
+      <p>Ce portfolio a besoin de JavaScript pour s'afficher. / This portfolio needs JavaScript to display.</p>
+      <p>
+        <a href="https://github.com/Arol4" style="color:#00e5ff">GitHub</a> ·
+        <a href="https://www.linkedin.com/in/berios-arol-djeufack-605b60219/" style="color:#00e5ff">LinkedIn</a>
+      </p>
+    </div>
+  </noscript>
+
   <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>
